@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { AppView } from "./AppView";
 import { Loader } from "./Loader";
 
 const MovieStyled = styled.div`
@@ -170,7 +169,6 @@ export const Movie = () => {
   }, [movieId]);
 
   return (
-    <AppView>
       <MovieStyled>
         {movie ? (
           <div className="movie__cnt">
@@ -210,6 +208,5 @@ export const Movie = () => {
           <Loader/>
         )}
       </MovieStyled>
-    </AppView>
   );
 };

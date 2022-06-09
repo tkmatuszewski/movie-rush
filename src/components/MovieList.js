@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import { MovieContext } from '../contexts/MovieContext';
 import styled from 'styled-components';
 import { Link} from 'react-router-dom';
