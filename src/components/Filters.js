@@ -14,45 +14,72 @@ h3 {
 }
 `
 
-const Filter = styled.div`
-font-family: "Lato", sans-serif;
-  
-strong {
-  display: block;
-  font-size: 1.2rem;
-  padding: 0.5rem 0;
-  }
+const FilterStyled = styled.div`
+  font-family: "Lato", sans-serif;
 
-button {
-  border: 1px solid black;
-  background: none;
-  padding: 0.5rem 0.25rem;
-}
-
-ul {
-  list-style-type: none;
-  width: 100%;
-  padding: 0;
-}
-
-li {
-  width: 100%;
-  line-height:1.5;
-
-  button {
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
+  strong {
+    display: block;
     font-size: 1.2rem;
-    background: transparent;
-    border: none;
+    padding: 0.75rem 0;
   }
+
+  ul {
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+    display: ${(props) => props.flexStatus};
+  }
+
+  li {
+    width: 100%;
+
+    button {
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      font-size: 1.2rem;
+      background: transparent;
+      border: none;
+      transition: 0.5;
+
+      &:hover {
+        background: black;
+        color: white;
+      }
+    }
+  }
+
+  input {
+    margin-top: 1rem;
+  }
+`;
+
+const Filter = ({ name, options, updateFunction, flexStatus, children }) => {
+  
+  const handleClick = (e, filterType) => {
+    e.preventDefault();
+    filterType(e.target.value);
+  }
+
+  return (
+    <FilterStyled>
+      <strong>{name}</strong>
+      <ul>
+      {options.map(option => {
+        return (
+          <li key={option}>
+            <button value={option} key={option} onClick={e => handleClick(e, updateFunction)}>
+              {option}
+            </button>
+          </li>
+        )
+      })}
+      </ul>
+      {children}
+    </FilterStyled>
+  )
 }
 
-input {
-  margin-top: 1rem;
-}
-`;
 
 export default function Filters() {
 
@@ -61,58 +88,20 @@ export default function Filters() {
   const [rating, setRating] = useState("");
   const [language, setLangauage] = useState("");
 
-  const handleGenre = (e) => {
-    e.preventDefault();
-    setGenre(e.target.value);
-  }
+  
 
-  const handleYear = (e) => {
-    e.preventDefault();
-    setYear(e.target.value);
-  }
-
-  const generes = ["comedy", "romance", "drama", "action", "thriller", "horror"];
+  const genres = ["comedy", "romance", "drama", "action", "thriller", "horror"];
+  const years = [2022, 2021, 2020, 2019, 2018];
+  const ratings = [9, 8, 7, 6, 5];
+  const languages = ["english", "spanish", "french", "german"];
 
     return (
       <FiltersCnt>
         <FiltersStyled>
           <h3>Filters</h3>
-          <Filter>
-            <strong>Genre</strong>
-            <ul>
-              {generes.map(genre => {
-                return (
-                <li>
-                  <button
-                    value={genre}
-                    key={genre}
-                    onClick={(e) => handleGenre(e)}
-                  >
-                    {genre.toUpperCase()}
-                  </button>
-                  </li>
-                )
-              })};
-            </ul>
-          </Filter>
-          <Filter>
-            <strong>Year</strong>
-            <button value="2022" onClick={(e) => handleYear(e)}>
-              2022
-            </button>
-            <button value="2021" onClick={(e) => handleYear(e)}>
-              2021
-            </button>
-            <button value="2020" onClick={(e) => handleYear(e)}>
-              2020
-            </button>
-            <button value="2019" onClick={(e) => handleYear(e)}>
-              2019
-            </button>
-            <button value="2018" onClick={(e) => handleYear(e)}>
-              2018
-            </button>
-            <div>
+          <Filter name="Genre" options={genres} updateFunction={setGenre}/>
+          <Filter name="Year" options={years} updateFunction={setYear}>
+            {/* <div>
               <input
                 value={year}
                 onChange={(e) => handleYear(e)}
@@ -123,35 +112,10 @@ export default function Filters() {
                 onChange={(e) => handleYear(e)}
                 placeholder="year min"
               />
-            </div>
-
-            <strong>Rating</strong>
-            <button value="9">9</button>
-            <button value="8">8</button>
-            <button value="7">7</button>
-            <button value="6">6</button>
-            <button value="5">5</button>
-            <label className="filter__label">
-              <input placeholder={"1990"} />
-            </label>
-          </Filter>
-          <Filter>
-            <strong>Language</strong>
-            <ul>
-              <li>
-                <button value="English">English</button>
-              </li>
-              <li>
-                <button value="Spanish">Spanish</button>
-              </li>
-              <li>
-                <button value="German">German</button>
-              </li>
-              <li>
-                <button value="French">French</button>
-              </li>
-            </ul>
-          </Filter>
+            </div> */}
+          </Filter>  
+          <Filter name="rating" options={ratings} flexStatus="flex" updateFunction={setRating}/>
+          <Filter name={"Language"} options={languages} updateFunction={setLangauage}/>
         </FiltersStyled>
       </FiltersCnt>
     );
