@@ -1,40 +1,42 @@
 import React, {useContext} from 'react';
 import { MovieContext } from '../contexts/MovieContext';
 import styled from 'styled-components';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Filters from './Filters'
+
+const Cnt = styled.div`
+display: flex ;
+width: 95%;
+margin: 0 auto;
+margin-top: 50px;
+`
 
 const MovieListStyled = styled.div`
-  width: 85vw;
+  width: 75%;
   min-height: 60vh;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   margin-bottom: 5%;
 
   a {
+    width: 24%;
     display: block;
     color: black;
     text-decoration: none;
   }
 
   .movieItem {
-    margin-top: 50px;
+    flex-grow: 1;
+    margin-right: 5px;
+    margin-bottom: 50px;
     cursor: pointer;
     font-family: "Lato", sans-serif;
-    width: 20%;
   }
 
   img {
-    border-radius: 10px;
-    object-fit: scale-down;
-  }
-
-  .movieRating {
-    position: absolute;
     width: 100%;
-    height: 100%;
-    background: red;
+    object-fit: cover;
   }
 
   .movieData {
@@ -52,12 +54,13 @@ const MovieListStyled = styled.div`
   }
 
   .noResults {
-    height: 80vh;
+    /* height: 80vh; */
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center;
+    justify-content: center; */
     font-family: "Lato", sans-serif;
-    color: rgba(0,0,0,0.5)
+    color: rgba(0,0,0,0.5);
+    margin: 0 auto;
   }
 `;
 
@@ -94,8 +97,11 @@ export const MovieList = ()=> {
     }
 
   return (
-    <MovieListStyled>
-      {condition(value)}
-    </MovieListStyled>
+    <>
+      <Cnt>
+        <Filters/>
+        <MovieListStyled>{condition(value)}</MovieListStyled>
+      </Cnt>
+    </>
   );
 }
