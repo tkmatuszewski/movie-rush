@@ -11,17 +11,19 @@ import { Header } from "./Header";
 import { Title } from "./Title";
 import { Search } from "./Search";
 import { Footer } from "./Footer";
+import { FilterProvider } from "../contexts/FilterContext";
+import { MovieProvider } from "../contexts/MovieContext";
 
 function App() {
 
   const [value, setValue] = useState([]);
 	function updateValue(inputValue) {
 		setValue(inputValue);
-	}
+  }
 
   return (
     <BrowserRouter>
-      <MovieContext.Provider value={{ value, updateValue }}>
+      <MovieProvider>
         <div className="App">
           <GlobalStyle />
           <Header headerHeight={"15vh"}>
@@ -30,16 +32,18 @@ function App() {
             </Link>
             <Search />
           </Header>
-          <Routes>
-            <Route path={home} element={<HeroPage />} />
-            <Route path="movies" element={<MovieList />} />
-            <Route path="/movies/:movieId" element={<Movie />} />
-            <Route path={pageNotFound} element={<PageNotFound />} />
-            <Route path="*" element={<Navigate to={pageNotFound} />} />
-          </Routes>
+          <FilterProvider>
+            <Routes>
+              <Route path={home} element={<HeroPage />} />
+              <Route path="movies" element={<MovieList />} />
+              <Route path="/movies/:movieId" element={<Movie />} />
+              <Route path={pageNotFound} element={<PageNotFound />} />
+              <Route path="*" element={<Navigate to={pageNotFound} />} />
+            </Routes>
+          </FilterProvider>
           <Footer />
         </div>
-      </MovieContext.Provider>
+      </MovieProvider>
     </BrowserRouter>
   );
 }

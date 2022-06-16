@@ -4,6 +4,8 @@ import { MovieContext } from '../contexts/MovieContext';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from 'react-router-dom';
+// import { FetchData } from './FetchData';
+// import { FetchData } from './FetchData';
 
 export const SearchStyled = styled.form`
     width: 35%;
@@ -48,11 +50,11 @@ export const Search = () => {
 
   const [searchParams] = useSearchParams();
   const q = searchParams.get("s");
-  const [query, setQuery] = useState(q);
+  const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
   const [isError, setIsError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { value, updateValue } = useContext(MovieContext);
+  const { setMovieList } = useContext(MovieContext);
 
   let navigate = useNavigate();
 
@@ -73,8 +75,9 @@ export const Search = () => {
         "http://www.omdbapi.com/?apikey=a7843424&s=" + movieName
       );
       setData(Search);
-      updateValue(Search);
+      setMovieList(Search);
       setLoading(false);
+      console.log(Search)
     } catch (error) {
       setIsError(error.message);
     }
@@ -83,11 +86,11 @@ export const Search = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query !== "" && query !== null) {
-      axiosData(query)
-      updateValue(data)
       navigate({
         pathname: `/movies?s=${query}`,
       })
+      axiosData(query);
+      setMovieList(data);
       handleReset()
     }
     else {
@@ -95,14 +98,13 @@ export const Search = () => {
     }
   }
   
-    
   useEffect(() => {
-    axiosData(q);
-    const timer = setTimeout(() => {
+   const timer = setTimeout(() => {
       setIsError("");
-    }, 3000);
+   }, 3000);
+    
     return () => clearTimeout(timer);
-  }, []);
+  });
     
   return (
     <SearchStyled onSubmit={(e) => handleSubmit(e)}>
