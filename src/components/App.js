@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { GlobalStyle} from "./GlobalStyle";
 import { HeroPage } from "./HeroPage";
-import {MovieContext} from "../contexts/MovieContext"
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import { home, pageNotFound } from "../constants/routes";
 import {Movie} from "./Movie";
@@ -15,11 +13,6 @@ import { FilterProvider } from "../contexts/FilterContext";
 import { MovieProvider } from "../contexts/MovieContext";
 
 function App() {
-
-  const [value, setValue] = useState([]);
-	function updateValue(inputValue) {
-		setValue(inputValue);
-  }
 
   return (
     <BrowserRouter>
