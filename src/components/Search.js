@@ -4,25 +4,20 @@ import { MovieContext } from '../contexts/MovieContext';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from 'react-router-dom';
-// import { FetchData } from './FetchData';
-// import { FetchData } from './FetchData';
 
 export const SearchStyled = styled.form`
-    width: 35%;
-    border-radius: 1.5rem;
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 3fr 1fr;  
     grid-template-rows: 1fr 1fr;
     font-family: "Lato", sans-serif;
 
-     @media only screen and (max-width: 840px) {
-       width: 60%;
+    @media only screen and (max-width: 660px) {
+      grid-column: 1/2;
     }
 
 input {
     grid-row: 2/3;
     grid-column: 1/2;
-    width: 100%;
     font-size: 1.2rem;
     color: white;
     background: transparent;
@@ -34,7 +29,6 @@ input {
     font-family: 'Lato',sans-serif; 
     font-size: 1.2rem;
     border-radius: 5px;
-    padding: 0 1rem;
     border: none;
 }
 
@@ -43,17 +37,16 @@ input {
     grid-column: 1/3;
     color: white;
 }
-`
+`;
 
 
 export const Search = () => {
 
   const [searchParams] = useSearchParams();
   const q = searchParams.get("s");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(q ? q : "");
   const [data, setData] = useState([]);
   const [isError, setIsError] = useState("");
-  const [loading, setLoading] = useState(false);
   const { setMovieList } = useContext(MovieContext);
 
   let navigate = useNavigate();
@@ -62,25 +55,23 @@ export const Search = () => {
     setQuery(event.target.value)
   }
 
-  const handleReset = () => {
-    setQuery("");
-  }
-
   const axiosData = async (movieName) => {
-    setLoading(true);
     try {
       const {
-        data: { Search },
+        data : {results}
       } = await axios.get(
-        "http://www.omdbapi.com/?apikey=a7843424&s=" + movieName
+        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${movieName}`
       );
-      setData(Search);
-      setMovieList(Search);
-      setLoading(false);
-      console.log(Search)
-    } catch (error) {
+      setData(results);
+      setMovieList(results);
+    }
+    catch (error) {
       setIsError(error.message);
     }
+  };
+
+  const handleReset = () => {
+    setQuery("");
   };
 
   const handleSubmit = (e) => {
@@ -90,7 +81,6 @@ export const Search = () => {
         pathname: `/movies?s=${query}`,
       })
       axiosData(query);
-      setMovieList(data);
       handleReset()
     }
     else {
@@ -99,12 +89,12 @@ export const Search = () => {
   }
   
   useEffect(() => {
+    if(q){axiosData(q)}
    const timer = setTimeout(() => {
       setIsError("");
    }, 3000);
-    
     return () => clearTimeout(timer);
-  });
+  },[]);
     
   return (
     <SearchStyled onSubmit={(e) => handleSubmit(e)}>
@@ -113,7 +103,7 @@ export const Search = () => {
         value={query}
         onChange={(e) => handleChange(e)}
         type="search"
-        placeholder="search by title"
+        placeholder="search for title"
       />
       <button className="search__btn" type="submit">
         Find
