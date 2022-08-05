@@ -111,7 +111,7 @@ export const MovieList = ()=> {
   return (
     <>
       <Cnt>
-        {showFilters && <Filters />}
+        {/* {showFilters && <Filters />} */}
         <div>
           <h1>Search results</h1>
           {/* <button className="filters" onClick={()=>setShowFilters(!showFilters)}>Filters</button> */}
