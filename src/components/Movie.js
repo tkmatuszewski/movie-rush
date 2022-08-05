@@ -148,6 +148,7 @@ export const Movie = () => {
               className="movie__img"
               src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
               alt="Movie poster"
+              loading="lazy"
             />
             <div className="movie__hero__data">
               <h2 className="movie__title">
