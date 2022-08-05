@@ -1,35 +1,47 @@
-import React, {useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import { MovieContext } from '../contexts/MovieContext';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Filters from './Filters'
+// import Filters from './Filters';
 
 const Cnt = styled.div`
 display: flex ;
 width: 95%;
 margin: 0 auto;
 margin-top: 50px;
+
+h1 {
+  font-family: "Oswald", sans-serif;
+}
 `
 
 const MovieListStyled = styled.div`
-  width: 75%;
   min-height: 60vh;
-  display: flex;
-  flex-wrap: wrap;
-  /* margin: 0 auto; */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 0.5rem;
+  row-gap: 2rem;
   margin-bottom: 5%;
 
-  a {
-    width: 24%;
-    display: block;
-    color: black;
-    text-decoration: none;
+  @media only screen and (max-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+    row-gap: 2rem ;
+    width: 75%;
+    margin: 0 auto ;
+  }
+
+    a {
+      width: 100%;
+      display: block;
+      color: black;
+      text-decoration: none;
+    }
   }
 
   .movieItem {
-    flex-grow: 1;
-    margin-right: 5px;
-    margin-bottom: 50px;
     cursor: pointer;
     font-family: "Lato", sans-serif;
   }
@@ -54,33 +66,33 @@ const MovieListStyled = styled.div`
   }
 
   .noResults {
-    /* height: 80vh; */
     display: flex;
-    /* align-items: center;
-    justify-content: center; */
     font-family: "Lato", sans-serif;
-    color: rgba(0,0,0,0.5);
+    color: rgba(0, 0, 0, 0.5);
     margin: 0 auto;
   }
 `;
 
 export const MovieList = ()=> {
 
-  const { value } = useContext(MovieContext);
+  const { movieList } = useContext(MovieContext);
+  const [showFilters, setShowFilters]= useState(false)
 
-    const renderMovies = (value)=> {
-      return value.map(({ Title, Year, imdbID, Poster }) => (
-        <Link to={`/movies/${imdbID}`} className="movieItem" key={imdbID}>
-          <img src={Poster} alt="movie poster" />
-          <div className="movieData">
-            <strong className="movieData__title">{Title}</strong>
-            <strong className="movieData__year">{Year}</strong>
-          </div>
-        </Link>
-      ));
+    const renderMovies = ()=> {
+      return movieList.map(({ title, id, poster_path }) => {
+        return (
+          <Link to={`/movies/${id}`} className="movieItem" key={id}>
+            <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt="movie poster" />
+            <div className="movieData">
+              <strong className="movieData__title">{title}</strong>
+            </div>
+          </Link>
+        )
+      }
+      );
     }
 
-    const noResults = ()=> {
+    const noResults =()=> {
       return (
         <div className="noResults">
           <h2>No results found</h2>
@@ -91,7 +103,7 @@ export const MovieList = ()=> {
     const condition = (value)=> {
               if (value ==="null" || value === undefined){
                 return noResults();
-              }else {
+              } else {
               return renderMovies(value)
             }
     }
@@ -99,8 +111,12 @@ export const MovieList = ()=> {
   return (
     <>
       <Cnt>
-        <Filters/>
-        <MovieListStyled>{condition(value)}</MovieListStyled>
+        {showFilters && <Filters />}
+        <div>
+          <h1>Search results</h1>
+          {/* <button className="filters" onClick={()=>setShowFilters(!showFilters)}>Filters</button> */}
+          <MovieListStyled>{condition(movieList)}</MovieListStyled>
+        </div>
       </Cnt>
     </>
   );
