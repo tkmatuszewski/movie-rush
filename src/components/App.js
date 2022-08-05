@@ -9,7 +9,7 @@ import { Header } from "./Header";
 import { Title } from "./Title";
 import { Search } from "./Search";
 import { Footer } from "./Footer";
-import { FilterProvider } from "../contexts/FilterContext";
+// import { FilterProvider } from "../contexts/FilterContext";
 import { MovieProvider } from "../contexts/MovieContext";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
             </Link>
             <Search />
           </Header>
-          <FilterProvider>
+          {/* <FilterProvider> */}
             <Routes>
               <Route path={home} element={<HeroPage />} />
               <Route path="movies" element={<MovieList />} />
@@ -33,7 +33,7 @@ function App() {
               <Route path={pageNotFound} element={<PageNotFound />} />
               <Route path="*" element={<Navigate to={pageNotFound} />} />
             </Routes>
-          </FilterProvider>
+          {/* </FilterProvider> */}
           <Footer />
         </div>
       </MovieProvider>
