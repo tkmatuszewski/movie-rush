@@ -39,7 +39,7 @@ const MovieListStyled = styled.div`
       color: black;
       text-decoration: none;
     }
-  }
+  
 
   .movieItem {
     cursor: pointer;
