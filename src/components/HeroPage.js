@@ -46,19 +46,19 @@ const HeroPageStyled = styled.div`
   .hero__text {
     grid-row: 2/3;
     grid-column: 2/3;
-    width: 80%;
     z-index: 2;
     color: white;
     font-family: "Lato", sans-serif;
 
     .hero__title {
       grid-row: 1/2;
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-family: "Oswald", sans-serif;
     }
     p {
       grid-row: 2/3;
       width: 80%;
-      font-size: 1.1rem;
+      font-size: 1.5rem;
       opacity: 0.7;
       margin: 0;
       line-height: 1.2;
@@ -81,8 +81,12 @@ const HeroPageStyled = styled.div`
     border-bottom: 0.25px solid gray;
 
     .about__cnt {
-      width: 70%;
+      width: 75%;
       display: flex;
+      align-items: center;
+      @media only screen and (max-width: 600px) {
+        flex-direction: column;
+      }
     }
     .about__left,
     .about__right {
@@ -91,22 +95,60 @@ const HeroPageStyled = styled.div`
       flex-direction: column;
     }
 
+    .about__right {
+      @media only screen and (max-width: 600px) {
+        width: 100%;
+      }
+    }
+
     span {
       display: block;
       font-size: clamp(2rem, 5vw, 3rem);
       font-weight: bold;
-      line-height: 1.5;
+
+      &:first-of-type {
+        margin-left: 20%;
+      }
+
+      &:nth-of-type(2) {
+        margin-left: 10%;
+      }
     }
     p {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       line-height: 1.5;
       width: 90%;
+      color: gray;
+      @media only screen and (max-width: 600px) {
+        width: 100%;
+        padding-top: 1.5rem;
+      }
     }
   }
 
   .partners {
-    height: 100vh;
-    background: white;
+    height: 70vh;
+    display: grid;
+    grid-auto-rows: auto;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-family: "Oswald", sans-serif;
+    color: gray;
+    justify-content: center;
+    @media only screen and (max-width: 600px) {
+      width: 75%;
+      margin: 0 auto;
+    }
+
+    .partners__cnt {
+      display: flex;
+      flex-direction: column;
+      align-self: flex-end;
+    }
+
+    .notice {
+      font-size: 1rem;
+      align-self: flex-end;
+    }
   }
 `;
 
@@ -117,12 +159,16 @@ export const HeroPage = ({children}) => {
     <HeroPageStyled>
       <div className="hero">
         <div className="hero__text">
-          <h1 className="hero__title">Your ultimate <br /> cinema guide</h1>
-          <p>Browse through thousands of titles with detailed data just few clicks away.</p>
+          <h1 className="hero__title">
+            Your ultimate <br /> cinema guide
+          </h1>
+          <p>
+            Browse through thousands of titles with detailed data just few
+            clicks away.
+          </p>
         </div>
         {children}
       </div>
-
       <div className="about">
         <div className="about__cnt">
           <div className="about__left">
@@ -131,15 +177,28 @@ export const HeroPage = ({children}) => {
             <span>Fast.</span>
           </div>
           <div className="about__right">
-            <p>No manuals needed for this app. Just type the title, hit the submit button and watch the magic happen.            We source movie data from reliable partners. All the data you need just few clicks away!</p>
+            <p>
+              No manuals needed for this app. Just type the title, hit the
+              submit button and watch the magic happen. We source movie data
+              from reliable partners. All the data you need just few clicks
+              away!
+            </p>
           </div>
         </div>
       </div>
       <div className="partners">
         <div className="partners__cnt">
-         <div>OMDB</div>
+          <strong>Powered by* </strong>
+          <img
+            src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+            alt="The Movie Database Logo"
+          />
         </div>
+        <span className="notice">
+          *This product uses the TMDB API but is not endorsed or certified by
+          TMDB.
+        </span>
       </div>
     </HeroPageStyled>
-    );
+  );
 }
