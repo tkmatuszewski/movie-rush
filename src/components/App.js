@@ -19,7 +19,7 @@ function App() {
       <MovieProvider>
         <div className="App">
           <GlobalStyle />
-          <Header headerHeight={"15vh"}>
+          <Header>
             <Link to={home}>
               <Title />
             </Link>
