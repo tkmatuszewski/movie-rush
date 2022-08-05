@@ -17,6 +17,9 @@ const ReviewsStyled = styled.div`
     font-size: 1.5rem;
     margin-bottom: 5vh;
     border-bottom: 1px solid #d7d3d3;
+    @media only screen and (max-width: 768px) {
+      flex-direction: column;
+    }
   }
 
   .review:last-of-type {
@@ -26,19 +29,33 @@ const ReviewsStyled = styled.div`
   .user {
     display: flex;
     flex-direction: column;
+    @media only screen and (max-width: 768px) {
+      flex-direction: row;
+      align-items: center ;
+    }
 
     img {
       margin-bottom: 1rem;
+      @media only screen and (max-width: 768px) {
+        width: 50px;
+        height: 50px;
+        margin-right: 1rem ;
+      }
     }
   }
 
   p {
     width: 75%;
     margin-top: 0;
+    @media only screen and (max-width: 768px) {
+      width: 90%;
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
   }
 
   .no__review {
-    font-size: clamp(1.2rem,2vw ,2rem);
+    font-size: clamp(1.2rem, 2vw, 2rem);
   }
 `;
 
