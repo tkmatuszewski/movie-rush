@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 const StyledFooter = styled.footer`
-  height: 15vh;
   background: black;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 3vh 0;
 
   .footer__copyright {
   color: white;
@@ -18,7 +18,7 @@ export const Footer =()=> {
   return (
     <StyledFooter>
         <div className="footer__copyright">
-            &copy; tkmatuszewski 2021
+            &copy; tkmatuszewski 2022
         </div>
     </StyledFooter>
   )
